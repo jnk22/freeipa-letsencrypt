@@ -5,10 +5,6 @@ FQDN=$(hostname -f)
 WORKDIR=$(dirname "$(realpath $0)")
 CERTS=("isrgrootx1.pem" "isrg-root-x2.pem" "lets-encrypt-r3.pem" "lets-encrypt-e1.pem" "lets-encrypt-r4.pem" "lets-encrypt-e2.pem")
 
-sed -i "s/server.example.test/$FQDN/g" $WORKDIR/ipa-httpd.cnf
-
-dnf install letsencrypt -y
-
 if [ ! -d "/etc/ssl/$FQDN" ]
 then
   mkdir -p "/etc/ssl/$FQDN"
@@ -27,5 +23,3 @@ do
 done
 
 ipa-certupdate
-
-"$WORKDIR/renew-le.sh" --first-time
