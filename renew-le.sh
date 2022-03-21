@@ -2,7 +2,7 @@
 set -o nounset -o errexit
 
 FQDN=$(hostname -f)
-REALM_NAME=$0
+REALM_NAME=$1
 DIRMAN_PASSWORD=`cat ~/.dmcredentials`
 KEY_LOCATION=/etc/ssl/$FQDN/letsencrypt/privkey.pem
 CERT_LOCATION=/etc/ssl/$FQDN/letsencrypt/cert.perm
