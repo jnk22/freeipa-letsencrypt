@@ -2,8 +2,8 @@
 set -o nounset -o errexit
 
 FQDN=$(hostname -f)
-REALM_NAME=""
-DIRMAN_PASSWORD=""
+REALM_NAME=$0
+DIRMAN_PASSWORD=`cat ~/.dmcredentials`
 KEY_LOCATION=/etc/ssl/$FQDN/letsencrypt/privkey.pem
 CERT_LOCATION=/etc/ssl/$FQDN/letsencrypt/cert.perm
 
@@ -15,7 +15,7 @@ else
   echo "Starting certinstall script..."
 
   # Try to install actual certificates
-  ipa-server-certinstall -p $DIRMAN_PASSWORD -w -d $KEY_LOCATION $CERT_LOCATION
+  ipa-server-certinstall -p $DIRMAN_PASSWORD -w -d $KEY_LOCATION $CERT_LOCATION --pin=''
 
   # Restart services to load new certificates
   systemctl restart httpd.service
