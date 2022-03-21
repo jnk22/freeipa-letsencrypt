@@ -17,5 +17,5 @@ cd freeipa-letsencrypt
 After successfully installing Let's Encrypt root certificates, set a daily cronjob:
 
 ```
-0 1 * * * root ~/freeipa-letsencrypt/renew-le.sh "EUTRONIK-DE"
+0 1 * * * root ~/freeipa-letsencrypt/renew-le.sh "REALM-NAME"
 ```
