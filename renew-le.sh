@@ -3,6 +3,9 @@ set -o nounset -o errexit
 
 FQDN=$(hostname -f)
 REALM_NAME=""
+DIRMAN_PASSWORD=""
+KEY_LOCATION=/etc/ssl/$FQDN/letsencrypt/privkey.pem
+CERT_LOCATION=/etc/ssl/$FQDN/letsencrypt/cert.perm
 
 if true | openssl s_client -connect $FQDN:443 2>/dev/null | \
   openssl x509 -noout -checkend 172800; then
@@ -12,7 +15,7 @@ else
   echo "Starting certinstall script..."
 
   # Try to install actual certificates
-  ipa-server-certinstall -w -d /etc/ssl/$FQDN/letsencrypt/privkey.pem cert.perm
+  ipa-server-certinstall -p $DIRMAN_PASSWORD -w -d $KEY_LOCATION $CERT_LOCATION
 
   # Restart services to load new certificates
   systemctl restart httpd.service
