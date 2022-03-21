@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+set -o nounset -o errexit
+
+FQDN=$(hostname -f)
+REALM_NAME=""
+
+if true | openssl s_client -connect $FQDN:443 2>/dev/null | \
+  openssl x509 -noout -checkend 172800; then
+  echo "Certificate will be valid for more than 2 days!"
+else
+  echo "Certificate will expire within 2 days!"
+  echo "Starting certinstall script..."
+
+  # Try to install actual certificates
+  ipa-server-certinstall -w -d /etc/ssl/$FQDN/letsencrypt/privkey.pem cert.perm
+
+  # Restart services to load new certificates
+  systemctl restart httpd.service
+  systemctl restart dirsrv@$REALM_NAME.service
+fi
